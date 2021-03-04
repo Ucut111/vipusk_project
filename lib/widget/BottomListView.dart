@@ -1,13 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:vipusk_project/ListTile.dart';
 import 'package:vipusk_project/Product.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:vipusk_project/screen/ItemScreen.dart';
 
 class BottomListView extends StatelessWidget {
   @override
