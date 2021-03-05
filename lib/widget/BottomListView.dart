@@ -28,7 +28,7 @@ class BottomListView extends StatelessWidget {
                 return Container();
               },
             ),
-            itemCount: 34,
+            itemCount: 10,
             // crossAxisCount: 2,
             // staggeredTileBuilder: (int index) => new StaggeredTile.count(2, 10),
             // mainAxisSpacing: 8,
@@ -51,7 +51,7 @@ Widget beerWidget(List<Product> beer) => ListView.builder(
     itemBuilder: (context, index) {
       return _singleBeer(beer[index]);
     },
-    itemCount: 34,
+    itemCount: beer.length,
     shrinkWrap: true);
 
 Widget _singleBeer(Product beer) => Container(
@@ -111,7 +111,8 @@ Widget _singleBeer(Product beer) => Container(
     );
 
 Future<Response> getListBeerFromApi() async {
-  var url = 'https://api.punkapi.com/v2/beers/';
+  const url = 'https://api.punkapi.com/v2/beers/';
+
   return await http.get(url);
 }
 
