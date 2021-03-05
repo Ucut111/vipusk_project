@@ -14,26 +14,21 @@ class BottomListView extends StatelessWidget {
         Container(
           height: 600,
           padding: EdgeInsets.all(10),
-          child: ListView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(10),
-            itemBuilder: (context, index) => FutureBuilder(
-              future: loadListBeer(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return beerWidget(snapshot.data);
-                } else if (snapshot.hasError) {
-                  print('Error');
-                }
-                return Container();
-              },
-            ),
-            itemCount: 10,
-            // crossAxisCount: 2,
-            // staggeredTileBuilder: (int index) => new StaggeredTile.count(2, 10),
-            // mainAxisSpacing: 8,
-            // crossAxisSpacing: 8,
+          child: FutureBuilder(
+            future: loadListBeer(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return beerWidget(snapshot.data);
+              } else if (snapshot.hasError) {
+                print('Error');
+              }
+              return Container();
+            },
           ),
+          // crossAxisCount: 2,
+          // staggeredTileBuilder: (int index) => new StaggeredTile.count(2, 10),
+          // mainAxisSpacing: 8,
+          // crossAxisSpacing: 8,
         ),
         // SizedBox(
         //   height: 500,
@@ -47,7 +42,7 @@ Future<List<Product>> loadListBeer() async =>
     await GettingBeerListInteractor().execute();
 
 Widget beerWidget(List<Product> beer) => ListView.builder(
-    physics: NeverScrollableScrollPhysics(),
+    // physics: NeverScrollableScrollPhysics(),
     itemBuilder: (context, index) {
       return _singleBeer(beer[index]);
     },
