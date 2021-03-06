@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:vipusk_project/Product.dart';
 
 class ItemScreen extends StatelessWidget {
+  final Product beer;
+
+  ItemScreen({@required this.beer});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

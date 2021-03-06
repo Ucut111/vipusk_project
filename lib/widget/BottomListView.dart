@@ -5,6 +5,7 @@ import 'package:vipusk_project/Product.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:vipusk_project/screen/ItemScreen.dart';
 
 class BottomListView extends StatelessWidget {
   @override
@@ -25,14 +26,7 @@ class BottomListView extends StatelessWidget {
               return Container();
             },
           ),
-          // crossAxisCount: 2,
-          // staggeredTileBuilder: (int index) => new StaggeredTile.count(2, 10),
-          // mainAxisSpacing: 8,
-          // crossAxisSpacing: 8,
         ),
-        // SizedBox(
-        //   height: 500,
-        // ),
       ],
     );
   }
@@ -42,7 +36,6 @@ Future<List<Product>> loadListBeer() async =>
     await GettingBeerListInteractor().execute();
 
 Widget beerWidget(List<Product> beer) => ListView.builder(
-    // physics: NeverScrollableScrollPhysics(),
     itemBuilder: (context, index) {
       return _singleBeer(beer[index]);
     },
@@ -50,9 +43,8 @@ Widget beerWidget(List<Product> beer) => ListView.builder(
     shrinkWrap: true);
 
 Widget _singleBeer(Product beer) => Container(
-      margin: EdgeInsets.all(20),
-      width: 150,
-      height: 100,
+      margin: EdgeInsets.all(8),
+      // height: 150,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -66,41 +58,44 @@ Widget _singleBeer(Product beer) => Container(
       ),
       child: Column(
         children: <Widget>[
-          GestureDetector(
-            // ПЕРЕНЕСТИ В НАЧАЛО
-            // onTap: () {
-            //   Navigator.push(
-            //     index,
-            //     MaterialPageRoute(
-            //       builder: (context) => ItemScreen(),
-            //     ),
-            //   );
-            // },
-            child: Column(children: <Widget>[
-              Row(
-                children: [
-                  Image.network(
-                    beer.image_url,
-                    scale: 20,
-                  ),
-                  Text('${beer.name}',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Container(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Row(
                 children: <Widget>[
-                  Container(
-                    child: Row(children: <Widget>[
-                      Icon(Icons.account_balance_outlined),
-                      Text("Price: ${beer.id}"),
-                    ]),
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        Image(
+                          image: NetworkImage(beer.image_url),
+                        )
+                      ],
+                    ),
                   ),
-                  IconButton(icon: Icon(Icons.plus_one_sharp), onPressed: null),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      margin: EdgeInsets.only(left: 20),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text('${beer.name}'),
+                              IconButton(
+                                  icon: Icon(Icons.favorite), onPressed: null),
+                            ],
+                          ),
+                          Text('subtitel'),
+                          Row(
+                            children: [Icon(Icons.money), Text('${beer.id}')],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
-              ),
-            ]),
-          ),
+              )),
         ],
       ),
     );

@@ -1,6 +1,6 @@
 class Product {
   String name;
-  int id;
+  double id;
   int target_fg;
   String image_url;
 
