@@ -11,7 +11,7 @@ class ItemScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('${beer.name}'),
+          title: Expanded(child: Text('${beer.name}')),
         ),
         body: Center(
             child: Column(

@@ -43,7 +43,7 @@ class BottomListView extends StatelessWidget {
 
   Widget _singleBeer(Beer beer) => Container(
         margin: EdgeInsets.all(8),
-        // height: 150,
+        height: 150,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -55,50 +55,46 @@ class BottomListView extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           color: Colors.cyan.withOpacity(0.8),
         ),
-        child: Column(
-          children: <Widget>[
+        child: Row(
+          children: [
             Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        children: [
-                          Image(
-                            image: NetworkImage(beer.image_url),
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        margin: EdgeInsets.only(left: 20),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text('${beer.name}'),
-                                IconButton(
-                                  icon: Icon(Icons.favorite),
-                                  onPressed: () {},
-                                ),
-                              ],
-                            ),
-                            Text('${beer.tagline}'),
-                            // Text('${beer.ibu}'),
-                            // Text('${beer.ph}'),
-                            Row(
-                              children: [Icon(Icons.money), Text('${beer.id}')],
-                            ),
-                          ],
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Expanded(
+                flex: 1,
+                child: Image(
+                  image: NetworkImage(beer.image_url),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: Container(
+                margin: EdgeInsets.only(left: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                            child: Text('${beer.name}',
+                                overflow: TextOverflow.ellipsis)),
+                        IconButton(
+                          icon: Icon(Icons.favorite),
+                          onPressed: () {},
                         ),
-                      ),
+                      ],
+                    ),
+                    Text('${beer.tagline}'),
+                    // Text('${beer.ibu}'),
+                    // Text('${beer.ph}'),
+                    Row(
+                      children: [Icon(Icons.money), Text('${beer.id}')],
                     ),
                   ],
-                )),
+                ),
+              ),
+            )
           ],
         ),
       );
