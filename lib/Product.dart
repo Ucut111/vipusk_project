@@ -1,21 +1,36 @@
-class Product {
+class Beer {
   String name;
-  double id;
-  int target_fg;
+  int id;
+  // String abv;
+  // String ibu;
+  // String ph;
   String image_url;
+  String tagline;
 
-  Product(this.name, this.id, this.target_fg, this.image_url);
-  factory Product.fromMap(Map<String, dynamic> json) {
-    return Product(
+  Beer(
+      this.name,
+      this.id,
+      // this.abv, this.ibu, this.ph,
+      this.image_url,
+      this.tagline);
+  factory Beer.fromMap(Map<String, dynamic> json) {
+    return Beer(
       json['name'],
       json['id'],
-      json['target_fg'], //.cast<double>(),
+      // json['abv'],
+      // json['ibu'],
+      // json['ph'], //.cast<double>(),
       json['image_url'],
+      json['tagline'],
     );
   }
-  Product.fromJson(Map<String, dynamic> json) {
+  Beer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     image_url = json['image_url'];
+    // abv = json['abv'];
+    // ibu = json['ibu'];
+    // ph = json['ph'];
+    tagline = json['tagline'];
   }
 }
