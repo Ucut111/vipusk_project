@@ -45,10 +45,7 @@ class TopListView extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              offset: Offset(1, 4),
-              blurRadius: 3,
-              color: Colors.black12,
-            )
+                offset: Offset(1, 4), blurRadius: 3, color: Colors.black12)
           ],
           borderRadius: BorderRadius.circular(15),
           color: Colors.cyan.withOpacity(0.8),
@@ -56,37 +53,32 @@ class TopListView extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.all(5),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Expanded(
-                child: Text('${beer.name}',
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
-              Expanded(
-                flex: 5,
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  child: Image(
-                    image: NetworkImage(beer.image_url),
-                  ),
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Expanded(
+                  child: Text('${beer.name}',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
+                Expanded(
+                    flex: 5,
+                    child: Container(
+                        margin: EdgeInsets.all(5),
+                        child: Image(
+                          image: NetworkImage(beer.image_url),
+                        ))),
+                Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.money),
-                      Text('${beer.id}'),
-                    ],
-                  ),
-                  IconButton(icon: Icon(Icons.favorite), onPressed: null)
-                ],
-              ),
-            ],
-          ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.money),
+                            Text('${beer.id}'),
+                          ]),
+                      IconButton(icon: Icon(Icons.favorite), onPressed: null)
+                    ]),
+              ]),
         ),
       );
 }
