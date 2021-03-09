@@ -1,42 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:vipusk_project/screen/ItemScreen.dart';
-import '../ListTile.dart';
-import '../widget/BottomListView.dart';
+import '../Product.dart';
+import '../getting_list_interactor.dart';
 
 class TopListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      child: ListView.separated(
-        shrinkWrap: true,
-        padding: EdgeInsets.all(10),
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          FutureBuilder(
-            future: loadListBeer(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return beerWidget(snapshot.data);
-              } else if (snapshot.hasError) {
-                print('Error');
-              }
-              return Container();
-            },
-          );
-          // onTap: () {
-          //   Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => ItemScreen(),
-          //     ),
-          //   );
-          // },
-          // );
+      height: 200,
+      child: FutureBuilder(
+        future: _loadListBeer(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return _beerWidget(snapshot.data);
+          } else if (snapshot.hasError) {
+            print('Error');
+          }
+          return Container();
         },
-        separatorBuilder: (context, index) => Text('  '),
-        itemCount: 30,
       ),
     );
   }
+
+  Future<List<Beer>> _loadListBeer() async =>
+      await GettingBeerListInteractor().execute();
+
+  Widget _beerWidget(List<Beer> beer) => ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ItemScreen(beer: beer[index]))),
+            child: _singleBeer(beer[index]));
+      },
+      itemCount: beer.length,
+      shrinkWrap: true);
+
+  Widget _singleBeer(Beer beer) => Container(
+        margin: EdgeInsets.all(8),
+        // height: 150,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(1, 4),
+              blurRadius: 3,
+              color: Colors.black12,
+            )
+          ],
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.cyan.withOpacity(0.8),
+        ),
+        child: ListTile(
+          leading: Image(
+            image: NetworkImage(beer.image_url),
+          ),
+        ),
+      );
 }
