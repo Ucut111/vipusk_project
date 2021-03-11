@@ -86,7 +86,14 @@ class BottomListView extends StatelessWidget {
                                       TextStyle(fontWeight: FontWeight.bold))),
                           IconButton(
                             icon: Icon(Icons.favorite),
-                            onPressed: () {},
+                            onPressed: () {
+                              //   Provider.of<FavState>(context).addBeer(
+                              //     id: beer.id,
+                              //     name: beer.name,
+                              //     image_url: beer.image_url,
+                              //     tagline: beer.tagline,
+                              //   );
+                            },
                           )
                         ]),
                     Text(

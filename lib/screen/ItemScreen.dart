@@ -55,18 +55,11 @@ class ItemScreen extends StatelessWidget {
               children: [
                 Expanded(
                     child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(1, 4),
-                        blurRadius: 3,
-                        color: Colors.black12,
-                      )
-                    ],
-                  ),
-                  child: Image.network(
-                    beer.image_url,
-                    scale: 3,
+                  child: Container(
+                    child: Image.network(
+                      beer.image_url,
+                      scale: 3,
+                    ),
                   ),
                 )),
                 Text('${beer.tagline}'),
