@@ -1,45 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:vipusk_project/screen/ItemScreen.dart';
+import 'package:vipusk_project/widget/LodingWidget.dart';
+import 'package:vipusk_project/model/Product.dart';
+import 'package:vipusk_project/InternetState.dart';
 
-import '../Product.dart';
-import '../getting_list_interactor.dart';
+import '../repository.dart';
+import 'beer_pattern_bloc.dart';
 
-class BottomListView extends StatelessWidget {
+class BottomListView extends StatefulWidget {
+  @override
+  _BottomListViewState createState() => _BottomListViewState();
+}
+
+class _BottomListViewState extends State<BottomListView> {
+  final _bloc = BeersPatternBloc(Repository());
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc.navigateTo.listen((page) async {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (BuildContext context) => page));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 600,
-          padding: EdgeInsets.all(10),
-          child: FutureBuilder(
-            future: _loadListBeer(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return _beerWidget(snapshot.data);
-              } else if (snapshot.hasError) {
-                print('Error');
+    return Container(
+      height: MediaQuery.of(context).size.height / 2,
+      padding: EdgeInsets.all(10),
+      child: StreamBuilder(
+        stream: _bloc.internetState,
+        initialData: InternetState.connected,
+        builder: (context, snapshot) {
+          InternetState state = snapshot.data;
+          switch (state) {
+            case InternetState.connected:
+              {
+                _bloc.getBeers();
+                return _beersWidget();
               }
-              return CircularProgressIndicator();
-            },
-          ),
-        ),
-      ],
+            case InternetState.notConnected:
+              {
+                return NoInternetPage(
+                    haveInternetAction: () => _bloc.haveInternet.add(null));
+              }
+          }
+          return Container();
+        },
+      ),
     );
   }
 
-  Future<List<Beer>> _loadListBeer() async =>
-      await GettingBeerListInteractor().execute();
-
-  Widget _beerWidget(List<Beer> beer) => ListView.builder(
-      itemBuilder: (context, index) {
-        return GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ItemScreen(beer: beer[index]))),
-            child: _singleBeer(beer[index]));
-      },
-      itemCount: beer.length,
-      shrinkWrap: true);
+  Widget _beersWidget() => StreamBuilder(
+      initialData: [],
+      stream: _bloc.streamBeers,
+      builder: (context, snapshot) => snapshot.hasData
+          ? ListView.builder(
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                    onTap: () => _bloc.tapOnItem.add(snapshot.data[index]),
+                    child: _singleBeer(snapshot.data[index]));
+              },
+              itemCount: _bloc.getBeersLenght(), //сделать геттер длинны
+              shrinkWrap: true)
+          : LoadingPage());
 
   Widget _singleBeer(Beer beer) => Container(
         margin: EdgeInsets.all(8),

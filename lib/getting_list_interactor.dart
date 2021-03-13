@@ -2,7 +2,7 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'api.dart';
 
-import 'Product.dart';
+import 'model/Product.dart';
 
 class GettingBeerListInteractor {
   Future<List<Beer>> execute({String query}) async {

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vipusk_project/widget/BottomListView.dart';
-import 'package:vipusk_project/widget/Search.dart';
+import 'package:vipusk_project/bloc/BottomListView_pattern.dart';
+import 'package:vipusk_project/bloc/TopListView_pattern.dart';
 import 'package:vipusk_project/widget/Select.dart';
-import 'package:vipusk_project/widget/TopListView.dart';
 import 'CartScreen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -54,7 +53,6 @@ class _MainScreenState extends State<MainScreen> {
                     ],
                   ),
                 ),
-                Search(),
                 Container(
                     margin: EdgeInsets.only(
                       top: 20,
