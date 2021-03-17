@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vipusk_project/model/Product.dart';
-import 'package:vipusk_project/screen/ItemScreen.dart';
 import 'package:vipusk_project/InternetState.dart';
 
 import '../widget/LodingWidget.dart';
@@ -59,12 +58,10 @@ class _TopListViewState extends State<TopListView> {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            ItemScreen(beer: snapshot.data[index]))),
+                    onTap: () => _bloc.tapOnItem.add(snapshot.data[index]),
                     child: _singleBeer(snapshot.data[index]));
               },
-              itemCount:  _bloc.getBeersLenght(),
+              itemCount: _bloc.getBeersLenght(),
               shrinkWrap: true)
           : LoadingPage());
 

@@ -6,3 +6,9 @@ Future<Response> getListBeerFromApi() async {
 
   return await http.get(url);
 }
+
+Future<Response> getRandomBeerFromApi() async {
+  const url = 'https://api.punkapi.com/v2/beers/random';
+
+  return await http.get(url);
+}

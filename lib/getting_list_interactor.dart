@@ -21,3 +21,21 @@ class GettingBeerListInteractor {
     return null;
   }
 }
+
+class GettingBeerRandomInteractor {
+  Future<List<Beer>> execute({String query}) async {
+    try {
+      Response response = await getRandomBeerFromApi();
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+        List<Beer> result = data.map((e) => Beer.fromJson(e)).toList();
+        return result;
+      } else {
+        print('Error');
+      }
+    } catch (ex) {
+      return null;
+    }
+    return null;
+  }
+}

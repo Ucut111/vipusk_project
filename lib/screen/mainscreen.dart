@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vipusk_project/bloc/BottomListView_pattern.dart';
+import 'package:vipusk_project/bloc/GetRandon.dart';
 import 'package:vipusk_project/bloc/TopListView_pattern.dart';
+import 'package:vipusk_project/bloc/beer_pattern_bloc.dart';
 import 'package:vipusk_project/widget/Select.dart';
-import 'CartScreen.dart';
+import '../repository.dart';
+import 'SettingScreen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -10,6 +13,17 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final _bloc = BeersPatternBloc(Repository());
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc.navigateTo.listen((page) async {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (BuildContext context) => page));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,48 +35,36 @@ class _MainScreenState extends State<MainScreen> {
             child: Column(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                    margin: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Привет Аркадий!',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          Text('Пить будешь, или как?',
-                              style: TextStyle(fontSize: 16)),
-                        ],
-                      ),
-                      IconButton(
-                          icon: Icon(
-                            Icons.favorite,
-                            color: Colors.pink,
-                            size: 30,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CartScreen(),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Привет Аркадий!',
+                                style: TextStyle(fontSize: 16),
                               ),
-                            );
-                          })
-                    ],
-                  ),
-                ),
-                Container(
-                    margin: EdgeInsets.only(
-                      top: 20,
-                      bottom: 5,
-                      left: 30,
-                    ),
-                    child: Text(
-                      'Представь, что по скидке',
-                      style: TextStyle(fontSize: 16),
-                    )),
+                              Text('Пить будешь, или как?',
+                                  style: TextStyle(fontSize: 16)),
+                            ],
+                          ),
+                          IconButton(
+                              icon: Icon(
+                                Icons.settings,
+                                color: Colors.pink,
+                                size: 30,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SwitchSound(),
+                                    ));
+                              })
+                        ])),
+                GetRandom(),
                 TopListView(),
                 Select(),
                 Container(
@@ -76,13 +78,3 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-
-// FutureBuilder(
-//     future: fetchProducts(),
-//     builder: (contex, snaphot) => snaphot.data != null
-//         ? Container(
-//             margin: EdgeInsets.symmetric(horizontal: 30),
-//             child: RowList(
-//               items: snaphot.data,
-//             ))
-//         : CircularProgressIndicator()),

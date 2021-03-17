@@ -52,7 +52,6 @@ class _BottomListViewState extends State<BottomListView> {
   }
 
   Widget _beersWidget() => StreamBuilder(
-      initialData: [],
       stream: _bloc.streamBeers,
       builder: (context, snapshot) => snapshot.hasData
           ? ListView.builder(
@@ -61,7 +60,7 @@ class _BottomListViewState extends State<BottomListView> {
                     onTap: () => _bloc.tapOnItem.add(snapshot.data[index]),
                     child: _singleBeer(snapshot.data[index]));
               },
-              itemCount: _bloc.getBeersLenght(), //сделать геттер длинны
+              itemCount: _bloc.getBeersLenght(),
               shrinkWrap: true)
           : LoadingPage());
 
@@ -70,8 +69,9 @@ class _BottomListViewState extends State<BottomListView> {
         height: 150,
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: NetworkImage(
-                  'https://media.istockphoto.com/photos/beer-background-ice-cold-pint-with-water-drops-condensation-picture-id466395900'),
+              image: AssetImage('assets/1.jpg'),
+              // NetworkImage(
+              //     'https://media.istockphoto.com/photos/beer-background-ice-cold-pint-with-water-drops-condensation-picture-id466395900'),
               fit: BoxFit.cover),
           boxShadow: [
             BoxShadow(
