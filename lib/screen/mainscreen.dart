@@ -60,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => SwitchSound(),
+                                      builder: (context) => Battary(),
                                     ));
                               })
                         ])),
