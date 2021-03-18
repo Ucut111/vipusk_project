@@ -31,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Colors.blue[100],
         body: Container(
           child: SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             child: Column(
               children: <Widget>[
                 Container(
@@ -42,16 +42,16 @@ class _MainScreenState extends State<MainScreen> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
+                              const Text(
                                 'Привет Аркадий!',
                                 style: TextStyle(fontSize: 16),
                               ),
-                              Text('Пить будешь, или как?',
+                              const Text('Пить будешь, или как?',
                                   style: TextStyle(fontSize: 16)),
                             ],
                           ),
                           IconButton(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.settings,
                                 color: Colors.pink,
                                 size: 30,

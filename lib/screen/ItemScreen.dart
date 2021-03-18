@@ -10,7 +10,6 @@ import 'CartScreen.dart';
 class ItemScreen extends StatelessWidget {
   final Beer beer;
   final _bloc = BeersPatternBloc(Repository());
-  // BeerPatternDetailBloc _bloc;
   ItemScreen({@required this.beer});
   @override
   Widget build(BuildContext context) {
@@ -54,7 +53,9 @@ class ItemScreen extends StatelessWidget {
             switch (state) {
               case InternetState.connected:
                 {
-                  return _bodyItemScreen();
+                  return BodyItemScreen(
+                    beer: beer,
+                  );
                 }
               case InternetState.notConnected:
                 {
@@ -67,33 +68,37 @@ class ItemScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _bodyItemScreen() => Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-        image: NetworkImage(
-            'https://p1.zoon.ru/9/4/5a3bc7b6a24fd9259f42127a_5ab8e1b6dcb96.jpg'),
-        fit: BoxFit.cover,
-      )),
-      child: Container(
-        decoration: BoxDecoration(color: Colors.blue[100].withOpacity(0.7)),
-        child: Center(
-            child: Column(
-          children: [
-            Expanded(
-                child: Container(
-              child: Container(
-                child: Image.network(
-                  beer.image_url,
-                  scale: 3,
-                ),
-              ),
-            )),
-            Text('${beer.tagline}'),
-            // SizedBox(
-            //   height: MediaQuery.of(context).size.height / 4,
-            // )
-          ],
+class BodyItemScreen extends StatelessWidget {
+  final Beer beer;
+  BodyItemScreen({@required this.beer});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+          image: NetworkImage(
+              'https://p1.zoon.ru/9/4/5a3bc7b6a24fd9259f42127a_5ab8e1b6dcb96.jpg'),
+          fit: BoxFit.cover,
         )),
-      ));
+        child: Container(
+          decoration: BoxDecoration(color: Colors.blue[100].withOpacity(0.7)),
+          child: Center(
+              child: Column(
+            children: [
+              Expanded(
+                  child: Container(
+                child: Container(
+                  child: Image.network(
+                    beer.imageUrl,
+                    scale: 3,
+                  ),
+                ),
+              )),
+              Text('${beer.tagline}'),
+            ],
+          )),
+        ));
+  }
 }

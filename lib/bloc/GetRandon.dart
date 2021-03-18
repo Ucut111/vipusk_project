@@ -18,20 +18,20 @@ class _GetRandomState extends State<GetRandom>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 3000),
+      duration: const Duration(milliseconds: 3000),
     );
 
     _rotateAnimation = Tween(end: 0.15, begin: 0.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Interval(0.0, 0.5, curve: Curves.bounceInOut),
+        curve: const Interval(0.0, 0.5, curve: Curves.bounceInOut),
       ),
     );
 
     _slideAnimation = Tween(begin: 0.0, end: 800.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Interval(0.5, 1.0, curve: Curves.fastOutSlowIn),
+        curve: const Interval(0.5, 1.0, curve: Curves.fastOutSlowIn),
       ),
     );
 
@@ -62,7 +62,7 @@ class _GetRandomState extends State<GetRandom>
               turns: _rotateAnimation,
               child: ElevatedButton(
                 style: ButtonStyle(),
-                child: Text('испытать удачу'),
+                child: const Text('испытать удачу'),
                 onPressed: () {
                   _controller.forward();
                 },

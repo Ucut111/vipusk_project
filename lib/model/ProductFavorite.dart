@@ -1,28 +1,20 @@
 class BeerFav {
   String name;
   int id;
-  // String abv;
-  // String ibu;
-  // String ph;
-  String image_url;
+  String imageUrl;
   String tagline;
 
-  BeerFav(
-      {this.name,
-      this.id,
-      // this.abv, this.ibu, this.ph,
-      this.image_url,
-      this.tagline});
+  BeerFav({this.name, this.id, this.imageUrl, this.tagline});
 }
 
 class FavState {
   Map<String, BeerFav> _favItems = {};
 
-  void addBeer({id, name, image_url, tagline}) {
+  void addBeer({id, name, imageUrl, tagline}) {
     _favItems.putIfAbsent(
         id,
-        () => BeerFav(
-            id: id, name: name, image_url: image_url, tagline: tagline));
+        () =>
+            BeerFav(id: id, name: name, imageUrl: imageUrl, tagline: tagline));
   }
 
   void deletBeer(id) {

@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 class LoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return const SizedBox(
       height: 200,
       child: Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.greenAccent,
-        ),
+        child: const CircularProgressIndicator(),
       ),
     );
   }

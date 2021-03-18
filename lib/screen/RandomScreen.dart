@@ -17,8 +17,8 @@ class RandomScreen extends StatelessWidget {
           elevation: 0,
           leading: IconButton(
             icon: Container(
-                margin: EdgeInsets.symmetric(horizontal: 25),
-                child: Icon(Icons.arrow_back)),
+                margin: const EdgeInsets.symmetric(horizontal: 25),
+                child: const Icon(Icons.arrow_back)),
             color: Colors.black,
             onPressed: () => Navigator.of(context).pop(),
           ),
@@ -32,7 +32,7 @@ class RandomScreen extends StatelessWidget {
               case InternetState.connected:
                 {
                   _bloc.getBeers();
-                  return _beersWidget();
+                  return BeersWidget();
                 }
               case InternetState.notConnected:
                 {
@@ -45,8 +45,14 @@ class RandomScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _beersWidget() => StreamBuilder(
+class BeersWidget extends StatelessWidget {
+  final _bloc = RandomBeersPatternBloc(RepositoryRandom());
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: StreamBuilder(
         stream: _bloc.internetState,
         initialData: InternetState.connected,
         builder: (context, snapshot) {
@@ -64,37 +70,45 @@ class RandomScreen extends StatelessWidget {
           }
           return Container();
         },
-      );
+      ),
+    );
+  }
 
   Widget _getbeersWidget() => StreamBuilder(
       stream: _bloc.streamBeers,
-      builder: (context, snapshot) => _bodyItemScreen(snapshot.data));
+      builder: (context, snapshot) => snapshot.hasData
+          ? BodyItemScreen(beer: snapshot.data)
+          : LoadingPage());
+}
 
-  Widget _bodyItemScreen(Beer beer) => Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: NetworkImage(
-                  'https://p1.zoon.ru/9/4/5a3bc7b6a24fd9259f42127a_5ab8e1b6dcb96.jpg'),
-              fit: BoxFit.cover)),
-      child: Container(
-        decoration: BoxDecoration(color: Colors.blue[100].withOpacity(0.7)),
-        child: Center(
-            child: Column(
-          children: [
-            Expanded(
+class BodyItemScreen extends StatelessWidget {
+  final Beer beer;
+  BodyItemScreen({@required this.beer});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(
+                    'https://p1.zoon.ru/9/4/5a3bc7b6a24fd9259f42127a_5ab8e1b6dcb96.jpg'),
+                fit: BoxFit.cover)),
+        child: Container(
+          decoration: BoxDecoration(color: Colors.blue[100].withOpacity(0.7)),
+          child: Center(
+              child: Column(
+            children: [
+              Expanded(
+                  child: Container(
                 child: Container(
-              child: Container(
-                child: Image.network(
-                  beer.image_url,
-                  scale: 3,
+                  child: Image.network(
+                    beer.imageUrl,
+                    scale: 3,
+                  ),
                 ),
-              ),
-            )),
-            Text('${beer.tagline}'),
-            // SizedBox(
-            //   height: MediaQuery.of(context).size.height / 4,
-            // )
-          ],
-        )),
-      ));
+              )),
+              Text('${beer.tagline}'),
+            ],
+          )),
+        ));
+  }
 }

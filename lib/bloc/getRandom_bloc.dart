@@ -1,10 +1,8 @@
 import 'dart:async';
 
+import 'package:vipusk_project/InternetState.dart';
 import 'package:vipusk_project/model/Product.dart';
 import 'package:vipusk_project/repository.dart';
-import 'package:vipusk_project/screen/ItemScreen.dart';
-
-import '../InternetState.dart';
 
 class RandomBeersPatternBloc {
   List<Beer> _listItems;

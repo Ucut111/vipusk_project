@@ -11,9 +11,9 @@ class BottomListView extends StatefulWidget {
   _BottomListViewState createState() => _BottomListViewState();
 }
 
-class _BottomListViewState extends State<BottomListView> {
-  final _bloc = BeersPatternBloc(Repository());
+final _bloc = BeersPatternBloc(Repository());
 
+class _BottomListViewState extends State<BottomListView> {
   @override
   void initState() {
     super.initState();
@@ -27,110 +27,113 @@ class _BottomListViewState extends State<BottomListView> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height / 2,
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: StreamBuilder(
-        stream: _bloc.internetState,
-        initialData: InternetState.connected,
-        builder: (context, snapshot) {
-          InternetState state = snapshot.data;
-          switch (state) {
-            case InternetState.connected:
-              {
-                _bloc.getBeers();
-                return _beersWidget();
-              }
-            case InternetState.notConnected:
-              {
-                return NoInternetPage(
-                    haveInternetAction: () => _bloc.haveInternet.add(null));
-              }
-          }
-          return Container();
-        },
-      ),
+          stream: _bloc.internetState,
+          initialData: InternetState.connected,
+          builder: (context, snapshot) {
+            InternetState state = snapshot.data;
+            switch (state) {
+              case InternetState.connected:
+                {
+                  _bloc.getBeers();
+                  return BeersWidget();
+                }
+              case InternetState.notConnected:
+                {
+                  return NoInternetPage(
+                      haveInternetAction: () => _bloc.haveInternet.add(null));
+                }
+            }
+            return Container();
+          }),
     );
   }
+}
 
-  Widget _beersWidget() => StreamBuilder(
-      stream: _bloc.streamBeers,
-      builder: (context, snapshot) => snapshot.hasData
-          ? ListView.builder(
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                    onTap: () => _bloc.tapOnItem.add(snapshot.data[index]),
-                    child: _singleBeer(snapshot.data[index]));
-              },
-              itemCount: _bloc.getBeersLenght(),
-              shrinkWrap: true)
-          : LoadingPage());
+class BeersWidget extends StatelessWidget {
+  final bloc;
+  BeersWidget({this.bloc});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: StreamBuilder(
+          stream: _bloc.streamBeers,
+          builder: (context, snapshot) => snapshot.hasData
+              ? ListView.builder(
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                        onTap: () => bloc.tapOnItem.add(snapshot.data[index]),
+                        child: SingleBeer(beer: snapshot.data[index]));
+                  },
+                  itemCount: _bloc.getBeersLenght(),
+                  shrinkWrap: true)
+              : LoadingPage()),
+    );
+  }
+}
 
-  Widget _singleBeer(Beer beer) => Container(
-        margin: EdgeInsets.all(8),
-        height: 150,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/1.jpg'),
-              // NetworkImage(
-              //     'https://media.istockphoto.com/photos/beer-background-ice-cold-pint-with-water-drops-condensation-picture-id466395900'),
-              fit: BoxFit.cover),
-          boxShadow: [
-            BoxShadow(
-              offset: Offset(1, 4),
-              blurRadius: 3,
-              color: Colors.black12,
-            )
-          ],
-          borderRadius: BorderRadius.circular(15),
-          // color: Colors.cyan.withOpacity(0.8),
-        ),
-        child: Row(children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Expanded(
-              flex: 1,
-              child: Image(
-                image: NetworkImage(beer.image_url),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Expanded(
-                              child: Text('${beer.name}',
-                                  overflow: TextOverflow.ellipsis,
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold))),
-                          IconButton(
-                            icon: Icon(Icons.favorite),
-                            onPressed: () {
-                              //   Provider.of<FavState>(context).addBeer(
-                              //     id: beer.id,
-                              //     name: beer.name,
-                              //     image_url: beer.image_url,
-                              //     tagline: beer.tagline,
-                              //   );
-                            },
-                          )
-                        ]),
-                    Text(
-                      '${beer.tagline}',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    // Text('${beer.ibu}'),
-                    // Text('${beer.ph}'),
-                    Row(children: [Icon(Icons.money), Text('${beer.id}')]),
-                  ]),
-            ),
+class SingleBeer extends StatelessWidget {
+  final Beer beer;
+
+  SingleBeer({this.beer});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(8),
+      height: 150,
+      decoration: BoxDecoration(
+        image: const DecorationImage(
+            image: const AssetImage('assets/1.jpg'), fit: BoxFit.cover),
+        boxShadow: [
+          const BoxShadow(
+            offset: const Offset(1, 4),
+            blurRadius: 3,
+            color: Colors.black12,
           )
-        ]),
-      );
+        ],
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Row(children: [
+        Container(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width / 6,
+                child: Image(
+                  image: NetworkImage(beer.imageUrl),
+                ))),
+        Expanded(
+          flex: 3,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                            child: Text('${beer.name}',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontWeight: FontWeight.bold))),
+                        IconButton(
+                          icon: Icon(Icons.favorite),
+                          onPressed: () {
+                            //   Provider.of<FavState>(context).addBeer(
+                            //   );
+                          },
+                        )
+                      ]),
+                  Text(
+                    '${beer.tagline}',
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Row(children: [const Icon(Icons.money), Text('${beer.id}')]),
+                ]),
+          ),
+        )
+      ]),
+    );
+  }
 }

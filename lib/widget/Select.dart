@@ -7,14 +7,13 @@ class Select extends StatefulWidget {
 
 class _SelectState extends State<Select> {
   int _selected = 0;
-  List categories = ['Горячее', "Вчерашнее", 'Первое', 'Второе'];
+  final List categories = ['Горячее', "Вчерашнее", 'Первое', 'Второе'];
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 30,
       margin: EdgeInsets.symmetric(
         vertical: 5,
-        // horizontal: 30,
       ),
       child: ListView.builder(
         itemCount: categories.length,
@@ -28,12 +27,10 @@ class _SelectState extends State<Select> {
           child: Container(
             alignment: Alignment.center,
             margin: EdgeInsets.symmetric(
-              // vertical: 10,
               horizontal: 20,
             ),
             padding: EdgeInsets.symmetric(
               horizontal: 5,
-              //  vertical: 3
             ),
             child: index == _selected
                 ? Container(
@@ -42,20 +39,20 @@ class _SelectState extends State<Select> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(categories[index],
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 16)),
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 16)),
                         Container(
                           margin: EdgeInsets.only(top: 1),
                           height: 3,
                           width: 50,
-                          decoration: BoxDecoration(color: Colors.red),
+                          decoration: const BoxDecoration(color: Colors.red),
                         ),
                       ],
                     ),
                   )
                 : Container(
                     child: Text(categories[index],
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black54,
                         )),
                   ),

@@ -37,7 +37,7 @@ class _TopListViewState extends State<TopListView> {
             case InternetState.connected:
               {
                 _bloc.getBeers();
-                return _beersWidget();
+                return BeersWidget();
               }
             case InternetState.notConnected:
               {
@@ -50,61 +50,76 @@ class _TopListViewState extends State<TopListView> {
       ),
     );
   }
+}
 
-  Widget _beersWidget() => StreamBuilder(
-      stream: _bloc.streamBeers,
-      builder: (context, snapshot) => snapshot.hasData
-          ? ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                    onTap: () => _bloc.tapOnItem.add(snapshot.data[index]),
-                    child: _singleBeer(snapshot.data[index]));
-              },
-              itemCount: _bloc.getBeersLenght(),
-              shrinkWrap: true)
-          : LoadingPage());
+class BeersWidget extends StatelessWidget {
+  final bloc;
+  BeersWidget({this.bloc});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: StreamBuilder(
+          stream: _bloc.streamBeers,
+          builder: (context, snapshot) => snapshot.hasData
+              ? ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                        onTap: () => _bloc.tapOnItem.add(snapshot.data[index]),
+                        child: SingleBeer(beer: snapshot.data[index]));
+                  },
+                  itemCount: _bloc.getBeersLenght(),
+                  shrinkWrap: true)
+              : LoadingPage()),
+    );
+  }
+}
 
-  Widget _singleBeer(Beer beer) => Container(
-        width: 150,
-        margin: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(1, 4), blurRadius: 3, color: Colors.black12)
-          ],
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.cyan.withOpacity(0.8),
-        ),
-        child: Container(
-          margin: EdgeInsets.all(5),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Expanded(
-                  child: Text('${beer.name}',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                ),
-                Expanded(
-                    flex: 5,
-                    child: Container(
-                        margin: EdgeInsets.all(5),
-                        child: Image(
-                          image: NetworkImage(beer.image_url),
-                        ))),
+class SingleBeer extends StatelessWidget {
+  final Beer beer;
+
+  SingleBeer({this.beer});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 150,
+      margin: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+              offset: const Offset(1, 4), blurRadius: 3, color: Colors.black12)
+        ],
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.cyan.withOpacity(0.8),
+      ),
+      child: Container(
+        margin: const EdgeInsets.all(5),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Expanded(
+                child: Text('${beer.name}',
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+              ),
+              Expanded(
+                  flex: 5,
+                  child: Container(
+                      margin: EdgeInsets.all(5),
+                      child: Image(
+                        image: NetworkImage(beer.imageUrl),
+                      ))),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(Icons.money),
-                            Text('${beer.id}'),
-                          ]),
-                      IconButton(icon: Icon(Icons.favorite), onPressed: null)
+                      const Icon(Icons.money),
+                      Text('${beer.id}'),
                     ]),
+                IconButton(icon: const Icon(Icons.favorite), onPressed: null)
               ]),
-        ),
-      );
+            ]),
+      ),
+    );
+  }
 }
