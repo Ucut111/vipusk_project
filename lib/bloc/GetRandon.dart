@@ -6,13 +6,11 @@ class GetRandom extends StatefulWidget {
   _GetRandomState createState() => _GetRandomState();
 }
 
-AnimationController _controller;
-
-Animation _rotateAnimation;
-Animation<double> _slideAnimation;
-
 class _GetRandomState extends State<GetRandom>
     with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  Animation _rotateAnimation;
+  Animation<double> _slideAnimation;
   @override
   void initState() {
     super.initState();
@@ -53,22 +51,21 @@ class _GetRandomState extends State<GetRandom>
       children: [
         AnimatedBuilder(
           animation: _slideAnimation,
-          builder: (context, ch) => Container(
-            margin: EdgeInsets.only(
-              left: 25,
-              top: _slideAnimation.value,
-            ),
-            child: RotationTransition(
-              turns: _rotateAnimation,
-              child: ElevatedButton(
+          child: RotationTransition(
+            turns: _rotateAnimation,
+            child: ElevatedButton(
                 style: ButtonStyle(),
                 child: const Text('испытать удачу'),
                 onPressed: () {
                   _controller.forward();
-                },
-              ),
-            ),
+                }),
           ),
+          builder: (context, child) => Container(
+              margin: EdgeInsets.only(
+                left: 25,
+                top: _slideAnimation.value,
+              ),
+              child: child),
         ),
       ],
     );

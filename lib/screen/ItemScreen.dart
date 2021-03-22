@@ -76,6 +76,7 @@ class BodyItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             image: DecorationImage(
           image: NetworkImage(
@@ -84,21 +85,19 @@ class BodyItemScreen extends StatelessWidget {
         )),
         child: Container(
           decoration: BoxDecoration(color: Colors.blue[100].withOpacity(0.7)),
-          child: Center(
-              child: Column(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                   child: Container(
-                child: Container(
-                  child: Image.network(
-                    beer.imageUrl,
-                    scale: 3,
-                  ),
+                child: Image.network(
+                  beer.imageUrl,
+                  scale: 3,
                 ),
               )),
               Text('${beer.tagline}'),
             ],
-          )),
+          ),
         ));
   }
 }
