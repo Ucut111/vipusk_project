@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vipusk_project/repository.dart';
 import 'package:vipusk_project/widget/LodingWidget.dart';
 import 'package:vipusk_project/model/Product.dart';
 import 'package:vipusk_project/InternetState.dart';
 
-import '../repository.dart';
 import 'beer_pattern_bloc.dart';
 
 class BottomListView extends StatefulWidget {
@@ -118,10 +118,7 @@ class SingleBeer extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold))),
                         IconButton(
                           icon: Icon(Icons.favorite),
-                          onPressed: () {
-                            //   Provider.of<FavState>(context).addBeer(
-                            //   );
-                          },
+                          onPressed: () {},
                         )
                       ]),
                   Text(

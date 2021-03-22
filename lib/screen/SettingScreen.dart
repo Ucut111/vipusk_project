@@ -38,7 +38,7 @@ class _BattaryState extends State<Battary> {
               onPressed: () => Navigator.of(context).pop())),
       body: Center(
         child: GestureDetector(
-          onTap: () => _getBatteryLevel(),
+          onTap: () => _getBatteryLevel,
           child: Container(
             width: 210,
             height: 210,

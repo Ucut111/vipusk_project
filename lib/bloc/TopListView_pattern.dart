@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vipusk_project/model/Product.dart';
 import 'package:vipusk_project/InternetState.dart';
+import 'package:vipusk_project/repository.dart';
+import 'package:vipusk_project/widget/LodingWidget.dart';
 
-import '../widget/LodingWidget.dart';
-import '../repository.dart';
 import 'beer_pattern_bloc.dart';
 
 class TopListView extends StatefulWidget {
@@ -110,13 +110,9 @@ class SingleBeer extends StatelessWidget {
                         image: NetworkImage(beer.imageUrl),
                       ))),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Icon(Icons.money),
-                      Text('${beer.id}'),
-                    ]),
-                IconButton(icon: const Icon(Icons.favorite), onPressed: null)
+                const Icon(Icons.money),
+                Text('${beer.id}'),
+                IconButton(icon: const Icon(Icons.favorite), onPressed: () {})
               ]),
             ]),
       ),
