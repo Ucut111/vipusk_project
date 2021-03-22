@@ -1,8 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
-Future<Response> getListBeerFromApi() async {
-  const url = 'https://api.punkapi.com/v2/beers?page=2&per_page=80';
+int page;
+Future<Response> getListBeerFromApi(page) async {
+  dynamic url = 'https://api.punkapi.com/v2/beers?page=$page&per_page=10';
 
   return await http.get(url);
 }
